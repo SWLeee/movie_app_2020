@@ -16,11 +16,32 @@ class App extends React.Component {
   state = {
     count: 0,
   };
+
+  // "절대 state를 직접 변경하지 말 것!"
+  // => 우리가 setState function을 호출하면 react는 매우 똑똑하기 때문에 우리가 언제
+  // setState를 호출할지를 알고 또한 우리가 view를 refresh 하길 원하는 걸 알며
+  // render function을 refresh하길 원하는 걸 앎
+  // 우리는 우리의 state를 바꾸고 싶지만 또한 react가 어떤 것이든 refresh 해주길 원함
   add = () => {
-    console.log("add");
+    // this.state.count = 1; // react는 render function을 refresh하지 않기 때문
+    // => 매번 state의 상태를 변경할 때 react가 render function을 호출해서 바꿔주길 원한다는 의미
+
+    // this.setState({ count: this.state.count + 1 }); // 그닥 좋은 방법이 아님!
+
+    this.setState((current) => ({ count: current.count + 1 })); // state를 set할 때, react에서 외부의 상태에 의존하지 않는 가장 좋은 방법)
+    // setState : 새로운 State를 취해야 함
+    // state는 object! => setState는 새로운 state를 받아야 함
+    // 만약 우리가 setState를 호출하면 react는 state를 refresh 하고
+    // 또한 render function을 호출할 것임
+    // setState를 사용하지 않으면 새 state와 함께 render function이 호출되지 않을 것임!
+
+    // 우리는 virtual DOM을 가지고 있기 때문에 react는 매우 빠르게 변경할 수 있고
+    // 깜박거리지도 않음
+
+    // 우리가 하고 싶은 건 현재 state를 얻고 싶음. react가 우리에게 줄 것임
   };
   minus = () => {
-    console.log("minus");
+    this.setState((current) => ({ count: current.count - 1 }));
   };
   // react 코드가 아니고 JavaScript코드임!
   render() {
