@@ -1,92 +1,43 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { scryRenderedDOMComponentsWithClass } from "react-dom/test-utils";
 
-const foodILike = [
-  {
-    id: 1,
-    name: "Kimchi",
-    image:
-      "http://aeriskitchen.com/wp-content/uploads/2008/09/kimchi_bokkeumbap_02-.jpg",
-    rating: 5,
-  },
-  {
-    id: 2,
-    name: "Samgyeopsal",
-    image:
-      "https://3.bp.blogspot.com/-hKwIBxIVcQw/WfsewX3fhJI/AAAAAAAAALk/yHxnxFXcfx4ZKSfHS_RQNKjw3bAC03AnACLcBGAs/s400/DSC07624.jpg",
-    rating: 4.9,
-  },
-  {
-    id: 3,
-    name: "Bibimbap",
-    image:
-      "http://cdn-image.myrecipes.com/sites/default/files/styles/4_3_horizontal_-_1200x900/public/image/recipes/ck/12/03/bibimbop-ck-x.jpg?itok=RoXlp6Xb",
-    rating: 4.8,
-  },
-  {
-    id: 4,
-    name: "Doncasu",
-    image:
-      "https://s3-media3.fl.yelpcdn.com/bphoto/7F9eTTQ_yxaWIRytAu5feA/ls.jpg",
-    rating: 4.5,
-  },
-  {
-    id: 5,
-    name: "Kimbap",
-    image:
-      "http://cdn2.koreanbapsang.com/wp-content/uploads/2012/05/DSC_1238r-e1454170512295.jpg",
-    rating: 4.7,
-  },
-];
+// function App() : function component
+class App extends React.Component {
+  // 매번 우리가 component를 만들 때마다 모든 것을 다 구현하고 싶지 않음 => extend from한 이유
+  // class react component는 function이 아니기 때문에 return을 가지고 있지 않음
+  /* class component와 function component의 차이 
+     - Function component : function이고 뭔가를 return하며 screen에 표시됨
+     - Class component : class이고 react component로 부터 확장되며 screen에 표시됨 
+                        render method 안에 넣어야만 함
+  */
+  // react는 자동적으로 모든 class component의 render method를 실행하고자 함
+  // class component를 이야기 하는 이유는 class component가 가진 우리가 원하는 state 때문임
+  // state는 object! component의 data를 넣을 공간이 있고 이 데이터는 변함!
+  state = {
+    count: 0,
+  };
+  add = () => {
+    console.log("add");
+  };
+  minus = () => {
+    console.log("minus");
+  };
+  // react 코드가 아니고 JavaScript코드임!
+  render() {
+    return (
+      <div>
+        <h1>The number is: {this.state.count}</h1>
+        {/* class 이기 때문에 this.state.count라고 함 
+            component의 데이터를 바꾸기 위해서
+        */}
 
-// function renderFood(dish) {
-//   //console.log(dish);
-//   return <Food name={dish.name} picture={dish.image} />;
-// }
-
-function Food({ name, picture, rating }) {
-  return (
-    <div>
-      <h2>I like {name}</h2>
-      <h4>{rating}/5.0</h4>
-      <img src={picture} alt={name} />
-      {
-        // image element는 alt prop이 반드시 있어야 한다고 함
-        // 시각 장애인들을 위한 것. 이런 종류의 중요한 정보를 create-react-app이
-        // 제공해주고 있음
-      }
-    </div>
-  );
-}
-
-Food.propTypes = {
-  // 내가 얻고 싶은 props에 대한 설명 적어주기
-  name: PropTypes.string.isRequired,
-  picture: PropTypes.string.isRequired,
-  rating: PropTypes.number.isRequired,
-  /* rating: PropTypes.number => 우리는 type만 체크할 수도 있고 
-  또는 required를 호출하는 방식으로 type과 required를 체크할 수 있음 */
-};
-function App() {
-  return (
-    <div className="App">
-      {
-        foodILike.map((dish) => (
-          <Food
-            key={dish.id}
-            name={dish.name}
-            picture={dish.image}
-            rating={dish.rating}
-          />
-          // key prop는 사용하지 않기 때문에 Food로 전달되지 않음
-          // 단지 react 내부에서 사용하기 위한 것
-        ))
-        /* {console.log(foodILike.map(renderFood))}
-      {foodILike.map(renderFood)} */
-      }
-    </div>
-  );
+        <button onClick={this.add}>Add</button>
+        {/* JavaScript에서는 다른 onClick이나 eventListener을 등록해야 하지만
+        react에서는 자동적으로 주어진 onClick을 가지고 있음 */}
+        <button onClick={this.minus}>Minus</button>
+      </div>
+    );
+  }
 }
 
 export default App;
