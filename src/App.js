@@ -10,6 +10,12 @@ class App extends React.Component {
      - Class component : class이고 react component로 부터 확장되며 screen에 표시됨 
                         render method 안에 넣어야만 함
   */
+  constructor(props) {
+    // construcor는 시작 전에 호출된 후 render가 호출됨
+    super(props);
+    console.log("hello");
+  }
+
   // react는 자동적으로 모든 class component의 render method를 실행하고자 함
   // class component를 이야기 하는 이유는 class component가 가진 우리가 원하는 state 때문임
   // state는 object! component의 data를 넣을 공간이 있고 이 데이터는 변함!
@@ -43,8 +49,18 @@ class App extends React.Component {
   minus = () => {
     this.setState((current) => ({ count: current.count - 1 }));
   };
+  componentDidMount() {
+    console.log("component rendered");
+  }
+  componentDidUpdate() {
+    console.log("I just updated");
+  }
+  componentWillUnmount() {
+    console.log("Goodbye, Cruel world");
+  }
   // react 코드가 아니고 JavaScript코드임!
   render() {
+    console.log("I'm rendering");
     return (
       <div>
         <h1>The number is: {this.state.count}</h1>
