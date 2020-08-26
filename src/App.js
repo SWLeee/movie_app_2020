@@ -1,4 +1,6 @@
 import React from "react";
+import PropTypes from "prop-types";
+import { scryRenderedDOMComponentsWithClass } from "react-dom/test-utils";
 
 const foodILike = [
   {
@@ -6,30 +8,35 @@ const foodILike = [
     name: "Kimchi",
     image:
       "http://aeriskitchen.com/wp-content/uploads/2008/09/kimchi_bokkeumbap_02-.jpg",
+    rating: 5,
   },
   {
     id: 2,
     name: "Samgyeopsal",
     image:
       "https://3.bp.blogspot.com/-hKwIBxIVcQw/WfsewX3fhJI/AAAAAAAAALk/yHxnxFXcfx4ZKSfHS_RQNKjw3bAC03AnACLcBGAs/s400/DSC07624.jpg",
+    rating: 4.9,
   },
   {
     id: 3,
     name: "Bibimbap",
     image:
       "http://cdn-image.myrecipes.com/sites/default/files/styles/4_3_horizontal_-_1200x900/public/image/recipes/ck/12/03/bibimbop-ck-x.jpg?itok=RoXlp6Xb",
+    rating: 4.8,
   },
   {
     id: 4,
     name: "Doncasu",
     image:
       "https://s3-media3.fl.yelpcdn.com/bphoto/7F9eTTQ_yxaWIRytAu5feA/ls.jpg",
+    rating: 4.5,
   },
   {
     id: 5,
     name: "Kimbap",
     image:
       "http://cdn2.koreanbapsang.com/wp-content/uploads/2012/05/DSC_1238r-e1454170512295.jpg",
+    rating: 4.7,
   },
 ];
 
@@ -38,10 +45,11 @@ const foodILike = [
 //   return <Food name={dish.name} picture={dish.image} />;
 // }
 
-function Food({ name, picture }) {
+function Food({ name, picture, rating }) {
   return (
     <div>
-      <h2>I like {name}</h2>;
+      <h2>I like {name}</h2>
+      <h4>{rating}/5.0</h4>
       <img src={picture} alt={name} />
       {
         // image element는 alt prop이 반드시 있어야 한다고 함
@@ -52,12 +60,25 @@ function Food({ name, picture }) {
   );
 }
 
+Food.propTypes = {
+  // 내가 얻고 싶은 props에 대한 설명 적어주기
+  name: PropTypes.string.isRequired,
+  picture: PropTypes.string.isRequired,
+  rating: PropTypes.number.isRequired,
+  /* rating: PropTypes.number => 우리는 type만 체크할 수도 있고 
+  또는 required를 호출하는 방식으로 type과 required를 체크할 수 있음 */
+};
 function App() {
   return (
     <div className="App">
       {
         foodILike.map((dish) => (
-          <Food key={dish.id} name={dish.name} picture={dish.image} />
+          <Food
+            key={dish.id}
+            name={dish.name}
+            picture={dish.image}
+            rating={dish.rating}
+          />
           // key prop는 사용하지 않기 때문에 Food로 전달되지 않음
           // 단지 react 내부에서 사용하기 위한 것
         ))
