@@ -1,11 +1,12 @@
 import React from "react";
 import axios from "axios";
+import Movie from "./Movie";
 
 class App extends React.Component {
   // 미래에 쓰고자하는 state를 선언하는 건 필수가 아님
   state = {
     isLoading: true,
-    movie: [],
+    movies: [],
   };
 
   /* componentDidMount에서 data를 fetch함
@@ -21,7 +22,14 @@ class App extends React.Component {
      그걸 기다려야만 한다는 것을 말하는 것 */
 
   getMovies = async () => {
-    const movies = await axios.get("https://yts-proxy.now.sh/list_movies.json");
+    const {
+      data: {
+        data: { movies },
+      },
+    } = await axios.get(
+      "https://yts-proxy.now.sh/list_movies.json?sort_by=rating"
+    );
+    this.setState({ movies, isLoading: false });
   };
   // 2) async 사용
   //async componentDidMount() {
@@ -29,8 +37,23 @@ class App extends React.Component {
     this.getMovies();
   }
   render() {
-    const { isLoading } = this.state;
-    return <div>{isLoading ? "Loading..." : "We are ready"}</div>;
+    const { isLoading, movies } = this.state;
+    return (
+      <div>
+        {isLoading
+          ? "Loading..."
+          : movies.map((movie) => (
+              <Movie
+                key={movie.id}
+                id={movie.id}
+                year={movie.year}
+                title={movie.title}
+                summary={movie.summary}
+                poster={movie.medium_cover_image}
+              />
+            ))}
+      </div>
+    );
   }
 }
 
